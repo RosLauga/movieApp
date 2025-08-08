@@ -15,6 +15,7 @@ build/
 # IDEs
 .vscode/
 .idea/
+.angular/
 
 # Mac y Windows
 .DS_Store
