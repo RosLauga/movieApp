@@ -5,12 +5,12 @@ import {
   Query,
   HttpException,
   Body,
-  UsePipes,
-  ValidationPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateOrUpdateNotificationModule } from '../../application/create-or-update-notification/createOrUpdateNotification.use-case';
 import { Notification } from '../../domain/entities/notification.model';
 import { createOrUpdateNotificationDto } from '../../dto/createOrUpdateNotification.dto';
+import { CheckAuthGuard } from 'src/auth/checkauth/checkauth.guard';
 
 export interface Query {
   id: string;
@@ -21,6 +21,7 @@ export class NotificationsController {
   constructor(private notification: CreateOrUpdateNotificationModule) {}
 
   @Get()
+  @UseGuards(CheckAuthGuard)
   getNotifications(@Query() query: Query) {
     const notification: Notification | HttpException =
       this.notification.getNotificationById(query.id);
@@ -32,7 +33,6 @@ export class NotificationsController {
   }
 
   @Post()
-  @UsePipes(new ValidationPipe())
   createUpdateNotification(
     @Body() notification: createOrUpdateNotificationDto,
   ) {

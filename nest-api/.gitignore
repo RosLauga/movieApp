@@ -19,3 +19,4 @@ build/
 # Mac y Windows
 .DS_Store
 Thumbs.db
+/generated/prisma
