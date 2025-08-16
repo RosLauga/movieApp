@@ -1,9 +1,10 @@
-import { Controller, Get } from '@nestjs/common';
-import { CreateOrUpdateUserModule } from './application/createOrUpdateUser.use-case';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { UserService } from './application/user.services';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly userService: CreateOrUpdateUserModule) {}
+  constructor(private readonly userService: UserService) {}
 
   // @Post()
   // create(@Body() createUserDto: CreateUserDto) {
@@ -11,15 +12,22 @@ export class UsersController {
   // }
 
   @Get()
-  findAll() {
-    const user = this.userService.getUserById();
-    return user;
+  async findAll(@Query() query: { id: string }) {
+    console.log('ID', query.id);
+    if (query.id) {
+      const userById = await this.userService.getUserById(query.id);
+      return userById;
+    } else {
+      const user = this.userService.getAllUsers();
+      return user;
+    }
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.usersService.findOne(+id);
-  // }
+  @Post()
+  async createOrUpdate(@Body() user: CreateUserDto) {
+    const newUser = await this.userService.createOrUpdateUser(user);
+    return newUser;
+  }
 
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
