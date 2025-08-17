@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { User } from '../entities/user.entity';
 import { UserDBRepository } from '../infracstructure/repository/userDB.repository';
 import { v4 as uuidv4 } from 'uuid';
@@ -9,20 +9,19 @@ export class UserService {
 
   async createOrUpdateUser(user: User) {
     const findUser = await this.getUserById(user.id);
-    console.log('Usuario', user);
+    console.log('FinduSer', findUser);
     if (findUser) {
       const updatedUser = Object.assign(findUser, user);
-      await this.userRepository.update(updatedUser);
+      return await this.checkAndUpdate(updatedUser);
     } else {
       const newUser: User = new User();
-
+      console.log('Creando nuevo usuario', newUser);
       newUser.id = uuidv4();
       newUser.name = user.name;
       newUser.lastname = user.lastname;
       newUser.password = user.password;
       newUser.email = user.email;
-
-      await this.userRepository.create(newUser);
+      return await this.checkAndCreate(newUser);
     }
   }
 
@@ -32,7 +31,33 @@ export class UserService {
   }
 
   async getAllUsers() {
-    const users = await this.userRepository.findAll();
-    return users;
+    return this.userRepository.findAll();
+  }
+
+  async checkAndUpdate(user: User) {
+    const users = await this.userRepository.checkEmail(user.email);
+    console.log('check', users);
+    const checkEmail = users?.filter((x) => x.id !== user.id);
+    if (checkEmail?.length) {
+      throw new HttpException(
+        `Èl email elegido ya existe en la base de datos`,
+        HttpStatus.CONFLICT,
+      );
+    }
+    const userUpdated = this.userRepository.update(user);
+    return userUpdated;
+  }
+
+  async checkAndCreate(user: User) {
+    const users = await this.userRepository.checkEmail(user.email);
+    console.log('Checking User', users);
+    if (users?.length) {
+      throw new HttpException(
+        `Èl email elegido ya existe en la base de datos`,
+        HttpStatus.CONFLICT,
+      );
+    } else {
+      return await this.userRepository.create(user);
+    }
   }
 }

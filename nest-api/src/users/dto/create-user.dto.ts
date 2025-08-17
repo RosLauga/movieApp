@@ -2,13 +2,11 @@ import {
   IsEmail,
   IsString,
   IsStrongPassword,
-  IsUUID,
   MinLength,
 } from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
-  @IsUUID()
   id: string;
   @IsString()
   @MinLength(5)

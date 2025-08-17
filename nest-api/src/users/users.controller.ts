@@ -18,7 +18,7 @@ export class UsersController {
       const userById = await this.userService.getUserById(query.id);
       return userById;
     } else {
-      const user = this.userService.getAllUsers();
+      const user = await this.userService.getAllUsers();
       return user;
     }
   }

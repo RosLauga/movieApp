@@ -8,19 +8,12 @@ export class UserDBRepository implements UserRepository {
   constructor(private readonly repositoryService: PrismaService) {}
 
   async findById(id: string) {
-    try {
-      const user = await this.repositoryService.user.findFirstOrThrow({
-        where: {
-          id: id,
-        },
-      });
-      return user;
-    } catch (error) {
-      return new HttpException(
-        `Usuario con id ${id} no encontrado`,
-        HttpStatus.NOT_FOUND,
-      );
-    }
+    const user = await this.repositoryService.user.findFirst({
+      where: {
+        id: id,
+      },
+    });
+    return user;
   }
 
   async create(user: User): Promise<User> {
@@ -29,18 +22,30 @@ export class UserDBRepository implements UserRepository {
   }
 
   async update(user: User): Promise<User> {
-    const updatedUser = await this.repositoryService.user.update({
-      data: user,
-      where: {
-        id: user.id,
-      },
-    });
-
-    return updatedUser;
+    try {
+      const updatedUser = await this.repositoryService.user.update({
+        data: user,
+        where: {
+          id: user.id,
+        },
+      });
+      return updatedUser;
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.CONFLICT);
+    }
   }
 
   async findAll(): Promise<User[] | []> {
     const users = this.repositoryService.user.findMany();
     return users;
+  }
+
+  async checkEmail(email: string): Promise<User[] | null> {
+    const user = this.repositoryService.user.findMany({
+      where: {
+        email,
+      },
+    });
+    return user;
   }
 }
