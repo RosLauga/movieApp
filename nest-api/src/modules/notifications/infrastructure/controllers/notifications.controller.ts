@@ -1,43 +1,18 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Query,
-  HttpException,
-  Body,
-  UseGuards,
-} from '@nestjs/common';
-import { CreateOrUpdateNotificationModule } from '../../application/create-or-update-notification/createOrUpdateNotification.use-case';
-import { Notification } from '../../domain/entities/notification.model';
-import { createOrUpdateNotificationDto } from '../../dto/createOrUpdateNotification.dto';
-import { CheckAuthGuard } from 'src/auth/checkauth/checkauth.guard';
-
-export interface Query {
-  id: string;
-}
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { NotificationServices } from '../../application/notifications.service';
+import { createNotificationDto } from '../../dto/createNotification.dto';
 
 @Controller('/notifications')
 export class NotificationsController {
-  constructor(private notification: CreateOrUpdateNotificationModule) {}
+  constructor(private notifications: NotificationServices) {}
 
   @Get()
-  @UseGuards(CheckAuthGuard)
-  getNotifications(@Query() query: Query) {
-    const notification: Notification | HttpException =
-      this.notification.getNotificationById(query.id);
-    if (notification) {
-      return notification;
-    } else {
-      return new HttpException(`No se han encontrado notificaciones`, 400);
-    }
+  getNotifications(@Query() query: { userId: string }) {
+    return this.notifications.findAll(query?.userId);
   }
 
   @Post()
-  createUpdateNotification(
-    @Body() notification: createOrUpdateNotificationDto,
-  ) {
-    const notificationCreated =
-      this.notification.createOrUpdateNotification(notification);
-    return notificationCreated;
+  createUpdateNotification(@Body() notification: createNotificationDto) {
+    return this.notifications.create(notification);
   }
 }

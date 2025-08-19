@@ -7,12 +7,11 @@ import { v4 as uuidv4 } from 'uuid';
 export class UserService {
   constructor(private userRepository: UserDBRepository) {}
 
-  async createOrUpdateUser(user: User) {
+  async createOrUpdateUser(user: User): Promise<User | null> {
     const findUser = await this.getUserById(user.id);
-    console.log('FinduSer', findUser);
     if (findUser) {
       const updatedUser = Object.assign(findUser, user);
-      return await this.checkAndUpdate(updatedUser);
+      return this.checkAndUpdate(updatedUser);
     } else {
       const newUser: User = new User();
       console.log('Creando nuevo usuario', newUser);
@@ -21,7 +20,7 @@ export class UserService {
       newUser.lastname = user.lastname;
       newUser.password = user.password;
       newUser.email = user.email;
-      return await this.checkAndCreate(newUser);
+      return this.checkAndCreate(newUser);
     }
   }
 
@@ -34,7 +33,7 @@ export class UserService {
     return this.userRepository.findAll();
   }
 
-  async checkAndUpdate(user: User) {
+  async checkAndUpdate(user: User): Promise<User | null> {
     const users = await this.userRepository.checkEmail(user.email);
     console.log('check', users);
     const checkEmail = users?.filter((x) => x.id !== user.id);
@@ -44,8 +43,7 @@ export class UserService {
         HttpStatus.CONFLICT,
       );
     }
-    const userUpdated = this.userRepository.update(user);
-    return userUpdated;
+    return this.userRepository.update(user);
   }
 
   async checkAndCreate(user: User) {
@@ -57,7 +55,7 @@ export class UserService {
         HttpStatus.CONFLICT,
       );
     } else {
-      return await this.userRepository.create(user);
+      return this.userRepository.create(user);
     }
   }
 }

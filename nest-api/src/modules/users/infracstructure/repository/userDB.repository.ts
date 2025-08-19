@@ -1,13 +1,13 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { UserRepository } from 'src/users/domain/user.repository';
-import { PrismaService } from '../persistence/prisma.service';
-import { User } from 'src/users/entities/user.entity';
+import { PrismaService } from 'src/globals/services/prisma.service';
+import { UserRepository } from 'src/modules/users/domain/user.repository';
+import { User } from 'src/modules/users/entities/user.entity';
 
 @Injectable()
 export class UserDBRepository implements UserRepository {
   constructor(private readonly repositoryService: PrismaService) {}
 
-  async findById(id: string) {
+  async findById(id: string): Promise<User | null> {
     const user = await this.repositoryService.user.findFirst({
       where: {
         id: id,
