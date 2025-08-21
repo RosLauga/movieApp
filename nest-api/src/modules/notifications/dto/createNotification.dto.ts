@@ -1,6 +1,6 @@
 import { IsBoolean, IsString, MinLength } from 'class-validator';
 
-export class createNotificationDto {
+export class CreateNotificationDto {
   id: string;
   @IsString()
   @MinLength(5)

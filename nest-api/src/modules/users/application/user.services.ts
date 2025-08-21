@@ -14,7 +14,6 @@ export class UserService {
       return this.checkAndUpdate(updatedUser);
     } else {
       const newUser: User = new User();
-      console.log('Creando nuevo usuario', newUser);
       newUser.id = uuidv4();
       newUser.name = user.name;
       newUser.lastname = user.lastname;

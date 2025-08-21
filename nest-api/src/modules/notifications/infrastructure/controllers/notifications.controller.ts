@@ -1,18 +1,29 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put, Query } from '@nestjs/common';
 import { NotificationServices } from '../../application/notifications.service';
-import { createNotificationDto } from '../../dto/createNotification.dto';
+import { CreateNotificationDto } from '../../dto/createNotification.dto';
+import { UpdateNotificationDto } from '../../dto/updateNotification.dto';
+
+export interface QueryProps {
+  userId: string;
+  readed?: string;
+}
 
 @Controller('/notifications')
 export class NotificationsController {
   constructor(private notifications: NotificationServices) {}
 
   @Get()
-  getNotifications(@Query() query: { userId: string }) {
-    return this.notifications.findAll(query?.userId);
+  getNotifications(@Query() query: QueryProps) {
+    return this.notifications.findAll(query);
   }
 
   @Post()
-  createUpdateNotification(@Body() notification: createNotificationDto) {
+  createNotification(@Body() notification: CreateNotificationDto) {
     return this.notifications.create(notification);
+  }
+
+  @Put()
+  async updateNotification(@Body() notification: UpdateNotificationDto) {
+    return this.notifications.update(notification);
   }
 }

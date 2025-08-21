@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { Notification } from '../domain/entities/notification.entity';
 import { NotificationDbRepository } from '../infrastructure/repository/notificationDb.repository';
 import { v4 as uuidv4 } from 'uuid';
+import { UpdateNotificationDto } from '../dto/updateNotification.dto';
+import { QueryProps } from '../infrastructure/controllers/notifications.controller';
 
 @Injectable()
 export class NotificationServices {
@@ -28,8 +30,19 @@ export class NotificationServices {
   //   }
   // }
 
-  findAll(userId: string): Promise<Notification[]> {
-    const notifications = this.notifications.findAll(userId);
+  async findAll(query: QueryProps): Promise<Notification[]> {
+    const notifications = await this.notifications.findAll(query);
     return notifications;
+  }
+
+  async update(
+    notification: UpdateNotificationDto,
+  ): Promise<Notification | undefined> {
+    const findNotification = await this.notifications.findById(notification.id);
+    if (findNotification) {
+      const not = await this.notifications.update(findNotification);
+      console.log('Notification Updated', not);
+      return not;
+    }
   }
 }
