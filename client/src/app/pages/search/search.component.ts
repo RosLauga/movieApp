@@ -6,6 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HttpAxiosServices } from '@tools/services/http.services';
 import { environment } from 'src/environment';
+import { MovieCardComponent } from '@tools/movieCard/movieCard.component';
+import { Movie } from './domain/movie.entity';
 
 export interface ApiResponse {
   data: any[];
@@ -21,19 +23,21 @@ export interface ApiResponse {
     MatInputModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    MovieCardComponent,
   ],
   templateUrl: './search.component.html',
 })
 export class SearchComponent {
   isLoading = signal<boolean>(false);
+  movieList = signal<Movie[]>([]);
   private httpService = inject(HttpAxiosServices);
 
   async getMovies(title: string) {
     this.isLoading.update((x) => (x = !x));
-    const request = await this.httpService.requestUrl<ApiResponse>(
+    const response = await this.httpService.requestUrl<ApiResponse>(
       `${environment.apiUrl}/movies/${title}`
     );
     this.isLoading.update((x) => (x = !x));
-    console.log('Requests', request.data);
+    this.movieList.set(response.data);
   }
 }

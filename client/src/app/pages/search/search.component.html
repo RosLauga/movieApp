@@ -1,6 +1,6 @@
-,<section class="justify-center flex">
-    <div class="w-full max-w-md min-w-[200px]">
-        <div class="relative flex items-center">
+,<section class="grid grid-cols-1 gap-10">
+    <div class="justify-center flex w-full">
+        <div class="relative flex items-center min-w-[24rem]">
            @if(isLoading()){
                <!-- <mat-icon aria-hidden="false" class="animate-spin absolute w-5 h-5 top-3 left-2.5 text-slate-600" aria-label="Example home icon" fontIcon="rotate_left"></mat-icon> -->
                <div class="absolute w-5 h-5 top-4 left-2.5 text-slate-600" >
@@ -30,4 +30,9 @@
           </button> 
         </div>
       </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 :grid-cols-3 gap-4">
+        @for (movie of movieList(); track movie.Title) {
+            <app-movie-card [movie]="movie"></app-movie-card>
+        }
+    </div>
 </section>
