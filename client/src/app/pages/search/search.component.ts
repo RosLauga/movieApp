@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HttpAxiosServices } from '@tools/services/http.services';
 import { environment } from 'src/environment';
-import { MovieCardComponent } from '@tools/movieCard/movieCard.component';
+import { MovieCardComponent } from '@tools/movieCard/movie-card.component';
 import { Movie } from './domain/movie.entity';
 
 export interface ApiResponse {

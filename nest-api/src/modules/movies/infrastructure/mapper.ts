@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Movie } from '../entities/movie.entity';
 import { MovieApi } from './movieApi.entity';
 
@@ -25,6 +25,13 @@ export class MapperApiToMovie {
   }
 
   mapperToSearchMovies(movies: MovieApi[]): Movie[] {
-    return movies.map(this.mapperToMovie);
+    if (movies) {
+      return movies.map(this.mapperToMovie);
+    } else {
+      throw new HttpException(
+        'No se encontraron peliculas con ese titulo',
+        HttpStatus.NOT_FOUND,
+      );
+    }
   }
 }
