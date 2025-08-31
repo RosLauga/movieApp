@@ -26,4 +26,17 @@ export class HttpAxiosServices {
       throw new Error('Error');
     }
   }
+
+  async postUrl<T>(url: string, body: T): Promise<T> {
+    try {
+      const response$ = this.service.post<T>(url, body).pipe(
+        map((res) => {
+          return res;
+        })
+      );
+      return await firstValueFrom(response$);
+    } catch (error) {
+      throw new Error('Error');
+    }
+  }
 }

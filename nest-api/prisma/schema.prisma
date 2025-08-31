@@ -23,6 +23,7 @@ model User {
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
   Notification Notification[] @relation(name: "UserNotifications")
+  Movies       Movies[]       @relation("UserMovies")
 }
 
 model Notification {
@@ -34,4 +35,12 @@ model Notification {
   readed      Boolean
   userId      String
   user        User     @relation(name: "UserNotifications", fields: [userId], references: [id])
+}
+
+model Movies {
+  id        String   @id @default(cuid())
+  title     String
+  user      User[]   @relation("UserMovies")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
