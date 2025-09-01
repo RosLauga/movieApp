@@ -17,8 +17,12 @@ export class UserDBRepository implements UserRepository {
   }
 
   async create(user: User): Promise<User> {
-    const newUser = await this.repositoryService.user.create({ data: user });
-    return newUser;
+    try {
+      const newUser = await this.repositoryService.user.create({ data: user });
+      return newUser;
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.BAD_GATEWAY);
+    }
   }
 
   async update(user: User): Promise<User> {

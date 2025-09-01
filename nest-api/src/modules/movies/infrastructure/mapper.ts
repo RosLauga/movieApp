@@ -6,20 +6,21 @@ import { MovieApi } from './movieApi.entity';
 export class MapperApiToMovie {
   mapperToMovie(movie: MovieApi): Movie {
     const mapMovie: Movie = {
-      Actors: movie.Actors,
-      BoxOffice: movie.BoxOffice,
-      Country: movie.Country,
-      Director: movie.Director,
-      Genre: movie.Genre,
-      Language: movie.Language,
-      Plot: movie.Plot,
-      Poster: movie.Poster,
-      Rated: movie.Rated,
-      Ratings: movie.Ratings,
-      Released: movie.Released,
-      Runtime: movie.Runtime,
-      Title: movie.Title,
-      Year: movie.Year,
+      id: movie.imdbID,
+      actors: movie.Actors,
+      boxOffice: movie.BoxOffice,
+      country: movie.Country,
+      director: movie.Director,
+      genre: movie.Genre,
+      language: movie.Language,
+      plot: movie.Plot,
+      poster: movie.Poster,
+      rated: movie.Rated,
+      ratings: movie.Ratings,
+      released: movie.Released,
+      runtime: movie.Runtime,
+      title: movie.Title,
+      year: movie.Year,
     };
     return mapMovie;
   }

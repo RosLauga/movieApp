@@ -1,7 +1,10 @@
 import {
+  Body,
   Controller,
+  Delete,
   Get,
   Param,
+  Post,
   Query,
   // Post,
   // Body,
@@ -10,17 +13,22 @@ import {
   // Delete,
 } from '@nestjs/common';
 import { MovieService } from './application/movie.service';
+import { CreateMovieDto } from './dto/create-movie.dto';
 
 @Controller('movies')
 export class MoviesController {
   constructor(private readonly moviesService: MovieService) {}
 
-  // @Post()
-  // create(@Body() createMovieDto: CreateMovieDto) {
-  //   return this.moviesService.create(createMovieDto);
-  // }
+  @Post()
+  async create(
+    @Body() movie: CreateMovieDto,
+    @Query() query: { userId: string },
+  ) {
+    console.log('userIdcontroller', query.userId);
+    return await this.moviesService.create(movie, query.userId);
+  }
 
-  @Get(':title')
+  @Get('/by-title/:title')
   findAll(@Param('title') title: string) {
     return this.moviesService.findAll(title);
   }
@@ -28,6 +36,16 @@ export class MoviesController {
   @Get()
   findByName(@Query() query: { title: string }) {
     return this.moviesService.findByName(query.title);
+  }
+
+  @Get('/favoritas')
+  findAllFav(@Query() query: { user: string }) {
+    return this.moviesService.findAllFav(query.user);
+  }
+
+  @Delete('/favoritas')
+  findAndDelete(@Query() query: { userId: string; movieId: string }) {
+    return this.moviesService.FindAndDelete(query.userId, query.movieId);
   }
 
   // @Patch(':id')

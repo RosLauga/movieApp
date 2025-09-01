@@ -22,8 +22,8 @@ model User {
   password     String
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
-  Notification Notification[] @relation(name: "UserNotifications")
-  Movies       Movies[]       @relation("UserMovies")
+  notification Notification[] @relation(name: "UserNotifications")
+  movies       Movie[]
 }
 
 model Notification {
@@ -37,10 +37,19 @@ model Notification {
   user        User     @relation(name: "UserNotifications", fields: [userId], references: [id])
 }
 
-model Movies {
-  id        String   @id @default(cuid())
+model Movie {
+  id        String   @default(cuid())
   title     String
-  user      User[]   @relation("UserMovies")
+  year      String
+  genre     String
+  director  String
+  plot      String
+  country   String
+  poster    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@id([id, userId])
 }

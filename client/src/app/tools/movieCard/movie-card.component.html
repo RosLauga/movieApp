@@ -1,13 +1,13 @@
 @if(movie) {
 <mat-card appearance="outlined" class="!bg-black overflow-hidden max-w-80 m-auto h-full flex flex-col">
   <div class="grid grid-cols-[2fr_1fr] gap-4 p-4">
-      <span class="text-lg text-white truncate w-full overflow-hidden">{{ movie.Title }}</span>
+      <span class="text-lg text-white truncate w-full overflow-hidden">{{ movie.title }}</span>
     <button class="flex max-w-sm rounded-md bg-yellow-500 justify-self-end">
-      <mat-icon [class]="movie.Actors ? 'favSelected': 'favUnselected'">favorite</mat-icon>
+      <mat-icon [class]="movie.actors ? 'favSelected': 'favUnselected'">favorite</mat-icon>
     </button>    
   </div>
   <div class="flex justify-center max-h-80">
-    <img mat-card-image [src]="movie.Poster" [alt]="movie.Title" class="max-h-full max-w-full object-contain"  />
+    <img mat-card-image [src]="movie.poster" [alt]="movie.title" class="max-h-full max-w-full object-contain"  />
   </div>  
   <mat-card-content>    
   </mat-card-content>
