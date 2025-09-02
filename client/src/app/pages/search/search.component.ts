@@ -35,7 +35,7 @@ export class SearchComponent {
   async getMovies(title: string) {
     this.isLoading.update((x) => (x = !x));
     const response = await this.httpService.requestUrl<ApiResponse>(
-      `${environment.apiUrl}/movies/${title}`
+      `${environment.apiUrl}/movies/by-title/${title}`
     );
     this.isLoading.update((x) => (x = !x));
     this.movieList.set(response.data);

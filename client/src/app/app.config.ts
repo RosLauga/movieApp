@@ -9,6 +9,8 @@ import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
 import { StoreModule, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { ROOT_REDUCER_MAP } from './core/store/app.states';
+import { provideEffects } from '@ngrx/effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,7 +18,8 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
     provideRouter(routes),
     provideHttpClient(),
-    provideStore({}),
-    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() })
+    provideStore(ROOT_REDUCER_MAP),
+    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
+    provideEffects()
 ],
 };
