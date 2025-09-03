@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/globals/services/prisma.service';
 import { UserRepository } from 'src/modules/users/domain/user.repository';
-import { User } from 'src/modules/users/entities/user.entity';
+import { User } from 'src/modules/users/domain/entities/user.entity';
 
 @Injectable()
 export class UserDBRepository implements UserRepository {

@@ -1,8 +1,12 @@
-import { Component, Input, signal } from "@angular/core";
+import { Component, inject, Input, signal } from "@angular/core";
 import { MatIconModule } from "@angular/material/icon";
+import { Store } from "@ngrx/store";
+import { setMovieFav } from "src/app/components/movies/state/movie.actions";
+import { Movie } from "src/app/pages/search/domain/movie.entity";
 
 @Component({
     selector: "app-fav-button",
+    styleUrl: './fav-button.component.css',
     templateUrl: "./fav-button.component.html",
     imports: [MatIconModule]
 })
@@ -10,6 +14,14 @@ import { MatIconModule } from "@angular/material/icon";
 export class FavButtonComponent {
 
 @Input()
-favState = false;   
+favState?: Movie;   
+
+private store = inject(Store)
+
+setFav(movie: Movie | undefined) {
+    console.log("Movie to Favourite", movie)
+    if(movie) this.store.dispatch(setMovieFav({movie}))
+}
+
 
 }

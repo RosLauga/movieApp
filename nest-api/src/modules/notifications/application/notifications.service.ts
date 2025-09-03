@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Notification } from '../domain/entities/notification.entity';
 import { NotificationDbRepository } from '../infrastructure/repository/notificationDb.repository';
 import { v4 as uuidv4 } from 'uuid';
-import { UpdateNotificationDto } from '../dto/updateNotification.dto';
+import { UpdateNotificationDto } from './dto/updateNotification.dto';
 import { QueryProps } from '../infrastructure/controllers/notifications.controller';
 
 @Injectable()

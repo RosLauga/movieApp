@@ -1,10 +1,10 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { Movie } from '../entities/movie.entity';
+import { Movie } from '../domain/entities/movie.entity';
 import { MovieApi } from './movieApi.entity';
 
 @Injectable()
 export class MapperApiToMovie {
-  mapperToMovie(movie: MovieApi): Movie {
+  mapperToMovie = (movie: MovieApi): Movie => {
     const mapMovie: Movie = {
       id: movie.imdbID,
       actors: movie.Actors,
@@ -21,9 +21,10 @@ export class MapperApiToMovie {
       runtime: movie.Runtime,
       title: movie.Title,
       year: movie.Year,
+      fav: false,
     };
     return mapMovie;
-  }
+  };
 
   mapperToSearchMovies(movies: MovieApi[]): Movie[] {
     if (movies) {

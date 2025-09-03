@@ -1,10 +1,10 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { HttpApiServices } from 'src/globals/services/http.services';
-import { Movie } from '../entities/movie.entity';
-import { MapperApiToMovie } from '../infrastructure/mapper';
-import { MovieApi } from '../infrastructure/movieApi.entity';
-import { MovieDBRepository } from '../infrastructure/repository/movie.repository';
+import { MapperApiToMovie } from '../../infrastructure/mapper';
+import { MovieApi } from '../../infrastructure/movieApi.entity';
+import { MovieDBRepository } from '../../infrastructure/repository/movie.repository';
 import { MovieFav } from '../entities/movieFav.entity';
+import { FavouriteMovieService } from './favourite-movie.service';
 
 export interface MovieApiResponse {
   Search: MovieApi[];
@@ -18,11 +18,18 @@ export class MovieService {
     private readonly httpService: HttpApiServices,
     private mapperService: MapperApiToMovie,
     private readonly movieRepository: MovieDBRepository,
+    private readonly favouriteMovieService: FavouriteMovieService,
   ) {}
-  async findAll(title: string): Promise<Movie[]> {
+  async findAll(title: string, userId: string) {
     const url = `${process.env.OMDB_SEARCH_ALL!}${title}&${process.env.APIKEY!}`;
     const response = await this.httpService.requestUrl<MovieApiResponse>(url);
-    return this.mapperService.mapperToSearchMovies(response.Search);
+    const dataMapped = this.mapperService.mapperToSearchMovies(response.Search);
+    const parseMoviesToFav = await this.movieRepository.findAllFav(userId);
+    const movieList = this.favouriteMovieService.getFavouriteMoviesFromUser(
+      dataMapped,
+      parseMoviesToFav,
+    );
+    return movieList;
   }
 
   async findByName(title: string) {

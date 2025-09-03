@@ -16,5 +16,6 @@ export interface Movie {
   poster: string;
   ratings: Rating[];
   boxOffice: string;
-  user: string
+  user: string;
+  fav: boolean;
 }

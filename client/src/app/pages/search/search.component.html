@@ -1,7 +1,6 @@
 <nav class="flex justify-center">
   <div class="mt-2 relative flex items-center max-w-[26rem] w-full">
-     @if(isLoading()){
-         <!-- <mat-icon aria-hidden="false" class="animate-spin absolute w-5 h-5 top-3 left-2.5 text-slate-600" aria-label="Example home icon" fontIcon="rotate_left"></mat-icon> -->
+     @if(isLoading$ | async){
          <div class="absolute w-5 h-5 top-4 left-2.5 text-slate-600" >
              <mat-progress-spinner 
                  mode="indeterminate"
@@ -33,8 +32,10 @@
     <div class="justify-center flex w-full">
       </div>
       <div class="grid items-stretch md:grid-cols-3 sm:grid-cols-2 lg:grid-cols-4 gap-y-2 grid-rows-[minmax(12rem,1fr)]">
-        @for (movie of movieList(); track movie.title) {
-            <app-movie-card [movie]="movie"></app-movie-card>
-        }
+       @if (movieList$ | async | json){
+         @for (movie of movieList$ | async; track movie.id) {
+             <app-movie-card [movie]="movie"></app-movie-card>
+         }
+       }
     </div>
 </section>

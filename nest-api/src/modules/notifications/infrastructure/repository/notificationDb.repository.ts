@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { NotificationRepository } from '../../domain/notifications.repository';
 import { Notification } from '../../domain/entities/notification.entity';
 import { PrismaService } from 'src/globals/services/prisma.service';
-import { UpdateNotificationDto } from '../../dto/updateNotification.dto';
+import { UpdateNotificationDto } from '../../application/dto/updateNotification.dto';
 import { QueryProps } from '../controllers/notifications.controller';
 
 @Injectable()

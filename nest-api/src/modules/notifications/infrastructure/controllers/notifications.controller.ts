@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Put, Query } from '@nestjs/common';
 import { NotificationServices } from '../../application/notifications.service';
-import { CreateNotificationDto } from '../../dto/createNotification.dto';
-import { UpdateNotificationDto } from '../../dto/updateNotification.dto';
+import { CreateNotificationDto } from '../../application/dto/createNotification.dto';
+import { UpdateNotificationDto } from '../../application/dto/updateNotification.dto';
 
 export interface QueryProps {
   userId: string;

@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { MovieRepository } from '../../domain/movie.repository';
 import { PrismaService } from 'src/globals/services/prisma.service';
-import { MovieFav } from '../../entities/movieFav.entity';
+import { MovieFav } from '../../domain/entities/movieFav.entity';
 
 @Injectable({})
 export class MovieDBRepository implements MovieRepository {
@@ -9,7 +9,6 @@ export class MovieDBRepository implements MovieRepository {
 
   async create(movie: MovieFav, userId: string): Promise<MovieFav> {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
       const newMovie = await this.repositoryService.movie.create({
         data: {
           ...movie,
@@ -28,18 +27,19 @@ export class MovieDBRepository implements MovieRepository {
   }
 
   async findById(movie: MovieFav, userId: string): Promise<MovieFav | null> {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const movieExist = await this.repositoryService.movie.findFirst({
+    console.log('Movie', movie);
+    const movieExist = await this.repositoryService.movie.findUnique({
       where: {
-        id: movie.id,
-        userId,
+        id_userId: {
+          id: movie.id,
+          userId,
+        },
       },
     });
     return movieExist;
   }
 
   async findAllFav(userId: string): Promise<MovieFav[] | []> {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
     const allFavs = await this.repositoryService.movie.findMany({
       where: { userId },
     });
@@ -48,7 +48,6 @@ export class MovieDBRepository implements MovieRepository {
 
   async delete(userId: string, movieId: string): Promise<MovieFav> {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
       const deleteMovie = this.repositoryService.movie.delete({
         where: {
           id_userId: {

@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  Param,
   Post,
   Query,
   // Post,
@@ -12,8 +11,9 @@ import {
   // Param,
   // Delete,
 } from '@nestjs/common';
-import { MovieService } from './application/movie.service';
-import { CreateMovieDto } from './dto/create-movie.dto';
+import { MovieService } from './domain/services/movie.service';
+import { CreateMovieDto } from './application/dto/create-movie.dto';
+import { MovieFav } from './domain/entities/movieFav.entity';
 
 @Controller('movies')
 export class MoviesController {
@@ -24,13 +24,12 @@ export class MoviesController {
     @Body() movie: CreateMovieDto,
     @Query() query: { userId: string },
   ) {
-    console.log('userIdcontroller', query.userId);
     return await this.moviesService.create(movie, query.userId);
   }
 
-  @Get('/by-title/:title')
-  findAll(@Param('title') title: string) {
-    return this.moviesService.findAll(title);
+  @Get('/by-title')
+  findAll(@Query() query: { title: string; userId: string }) {
+    return this.moviesService.findAll(query.title, query.userId);
   }
 
   @Get()
@@ -41,6 +40,15 @@ export class MoviesController {
   @Get('/favoritas')
   findAllFav(@Query() query: { user: string }) {
     return this.moviesService.findAllFav(query.user);
+  }
+
+  @Post('/favoritas')
+  createFavourite(
+    @Body() body: CreateMovieDto,
+    @Query() query: { userId: string },
+  ) {
+    console.log('Post', body);
+    return this.moviesService.create(body, query.userId);
   }
 
   @Delete('/favoritas')

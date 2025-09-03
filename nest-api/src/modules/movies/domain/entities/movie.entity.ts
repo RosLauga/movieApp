@@ -16,4 +16,5 @@ export class Movie {
   poster: string;
   ratings: Rating[];
   boxOffice: string;
+  fav: boolean;
 }

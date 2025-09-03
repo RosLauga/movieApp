@@ -11,6 +11,7 @@ import { StoreModule, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { ROOT_REDUCER_MAP } from './core/store/app.states';
 import { provideEffects } from '@ngrx/effects';
+import { MovieEffects } from './components/movies/state/movie.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,6 +21,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideStore(ROOT_REDUCER_MAP),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
-    provideEffects()
+    provideEffects(MovieEffects)
 ],
 };

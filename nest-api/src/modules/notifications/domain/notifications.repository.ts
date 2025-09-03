@@ -1,4 +1,4 @@
-import { UpdateNotificationDto } from '../dto/updateNotification.dto';
+import { UpdateNotificationDto } from '../application/dto/updateNotification.dto';
 import { QueryProps } from '../infrastructure/controllers/notifications.controller';
 import { Notification } from './entities/notification.entity';
 
