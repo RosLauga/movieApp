@@ -26,8 +26,8 @@ loadMoviesEffect$ = createEffect(() => {
     setMovieAsFavourite$ = createEffect (() => {
         return this.actions$.pipe(
             ofType(setMovieFav),
-            exhaustMap((body) => this.httpService.postUrl<Movie>(`${environment.apiUrl}/movies/favoritas?userId=62805d41-fb42-4330-8a5c-d07a6e2fabae`,body.movie).pipe(
-                map((res) => setMovieFavSuccess),
+            exhaustMap(({id}) => this.httpService.postUrl<Movie>(`${environment.apiUrl}/movies/favoritas?movieId=${id}&userId=62805d41-fb42-4330-8a5c-d07a6e2fabae`).pipe(
+                map((res) => setMovieFavSuccess()),
                 catchError(async () => errorMessage() )
             )
          )

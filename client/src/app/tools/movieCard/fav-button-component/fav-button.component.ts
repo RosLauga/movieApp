@@ -18,9 +18,9 @@ favState?: Movie;
 
 private store = inject(Store)
 
-setFav(movie: Movie | undefined) {
-    console.log("Movie to Favourite", movie)
-    if(movie) this.store.dispatch(setMovieFav({movie}))
+setFav(id: string | undefined) {
+    console.log("Movie to Favourite", id)
+    if(id) this.store.dispatch(setMovieFav({id}))
 }
 
 

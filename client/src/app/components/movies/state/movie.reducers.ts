@@ -1,5 +1,4 @@
 import { createReducer, on } from '@ngrx/store';
-import { Movie } from 'src/app/pages/search/domain/movie.entity';
 import { getMovieList, loadedMovies, setMovieFav } from './movie.actions';
 import { MovieStates } from './movie.states';
 
@@ -25,7 +24,7 @@ export const listMovieReducer = createReducer(
     return {
       ...state,
       movies: state.movies.map((x) => {
-        if(x.id === payload.movie.id){
+        if(x.id === payload.id){
           return {...x,fav: true}
         } else {
           return x

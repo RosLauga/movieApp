@@ -16,12 +16,11 @@ export class MapperApiToMovie {
       plot: movie.Plot,
       poster: movie.Poster,
       rated: movie.Rated,
-      ratings: movie.Ratings,
+      ratings: JSON.stringify(movie.Ratings),
       released: movie.Released,
       runtime: movie.Runtime,
       title: movie.Title,
       year: movie.Year,
-      fav: false,
     };
     return mapMovie;
   };

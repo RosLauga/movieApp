@@ -16,7 +16,7 @@ export const loadedMovies = createAction(
 
 export const setMovieFav = createAction(
   '[Movie List] Addding Movie as Favourite' ,
-  props<{movie: Movie}>()
+  props<{id: string}>()
 )
 
 export const setMovieFavSuccess = createAction(

@@ -1,13 +1,13 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { MovieRepository } from '../../domain/movie.repository';
 import { PrismaService } from 'src/globals/services/prisma.service';
-import { MovieFav } from '../../domain/entities/movieFav.entity';
+import { Movie } from '../../domain/entities/movie.entity';
 
 @Injectable({})
 export class MovieDBRepository implements MovieRepository {
   constructor(private readonly repositoryService: PrismaService) {}
 
-  async create(movie: MovieFav, userId: string): Promise<MovieFav> {
+  async create(movie: Movie, userId: string): Promise<Movie> {
     try {
       const newMovie = await this.repositoryService.movie.create({
         data: {
@@ -26,12 +26,11 @@ export class MovieDBRepository implements MovieRepository {
     }
   }
 
-  async findById(movie: MovieFav, userId: string): Promise<MovieFav | null> {
-    console.log('Movie', movie);
+  async findById(id: string, userId: string): Promise<Movie | null> {
     const movieExist = await this.repositoryService.movie.findUnique({
       where: {
         id_userId: {
-          id: movie.id,
+          id,
           userId,
         },
       },
@@ -39,14 +38,14 @@ export class MovieDBRepository implements MovieRepository {
     return movieExist;
   }
 
-  async findAllFav(userId: string): Promise<MovieFav[] | []> {
+  async findAllFav(userId: string): Promise<Movie[] | []> {
     const allFavs = await this.repositoryService.movie.findMany({
       where: { userId },
     });
     return allFavs;
   }
 
-  async delete(userId: string, movieId: string): Promise<MovieFav> {
+  async delete(userId: string, movieId: string): Promise<Movie> {
     try {
       const deleteMovie = this.repositoryService.movie.delete({
         where: {

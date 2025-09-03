@@ -1,8 +1,8 @@
-import { MovieFav } from './entities/movieFav.entity';
+import { Movie } from './entities/movie.entity';
 
 export interface MovieRepository {
-  create(movie: MovieFav, userId: string): Promise<MovieFav>;
-  findById(movie: MovieFav, userId: string): Promise<MovieFav | null>;
-  findAllFav(id: string): Promise<MovieFav[] | []>;
+  create(movie: Movie, userId: string): Promise<Movie>;
+  findById(id: string, userId: string): Promise<Movie | null>;
+  findAllFav(id: string): Promise<Movie[] | []>;
   delete(userId: string, movieId: string);
 }

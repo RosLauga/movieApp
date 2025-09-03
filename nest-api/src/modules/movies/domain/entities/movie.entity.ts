@@ -1,5 +1,3 @@
-import { Rating } from './rating.entity';
-
 export class Movie {
   id: string;
   title: string;
@@ -14,7 +12,6 @@ export class Movie {
   language: string;
   country: string;
   poster: string;
-  ratings: Rating[];
+  ratings: string;
   boxOffice: string;
-  fav: boolean;
 }

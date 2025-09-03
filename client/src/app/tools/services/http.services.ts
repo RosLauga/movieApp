@@ -22,7 +22,7 @@ export class HttpAxiosServices {
     }
   }
 
-  postUrl<T>(url: string, body: T) {
+  postUrl<T>(url: string, body?: T) {
     try {
       return this.service.post<T>(url, body)        
     } catch (error) {

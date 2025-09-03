@@ -1,40 +1,13 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Post,
-  Query,
-  // Post,
-  // Body,
-  // Patch,
-  // Param,
-  // Delete,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Query } from '@nestjs/common';
 import { MovieService } from './domain/services/movie.service';
-import { CreateMovieDto } from './application/dto/create-movie.dto';
-import { MovieFav } from './domain/entities/movieFav.entity';
 
 @Controller('movies')
 export class MoviesController {
   constructor(private readonly moviesService: MovieService) {}
 
-  @Post()
-  async create(
-    @Body() movie: CreateMovieDto,
-    @Query() query: { userId: string },
-  ) {
-    return await this.moviesService.create(movie, query.userId);
-  }
-
   @Get('/by-title')
   findAll(@Query() query: { title: string; userId: string }) {
     return this.moviesService.findAll(query.title, query.userId);
-  }
-
-  @Get()
-  findByName(@Query() query: { title: string }) {
-    return this.moviesService.findByName(query.title);
   }
 
   @Get('/favoritas')
@@ -43,12 +16,8 @@ export class MoviesController {
   }
 
   @Post('/favoritas')
-  createFavourite(
-    @Body() body: CreateMovieDto,
-    @Query() query: { userId: string },
-  ) {
-    console.log('Post', body);
-    return this.moviesService.create(body, query.userId);
+  createFavourite(@Query() query: { movieId: string; userId: string }) {
+    return this.moviesService.create(query.movieId, query.userId);
   }
 
   @Delete('/favoritas')

@@ -3,7 +3,7 @@ import { HttpApiServices } from 'src/globals/services/http.services';
 import { MapperApiToMovie } from '../../infrastructure/mapper';
 import { MovieApi } from '../../infrastructure/movieApi.entity';
 import { MovieDBRepository } from '../../infrastructure/repository/movie.repository';
-import { MovieFav } from '../entities/movieFav.entity';
+import { Movie } from '../entities/movie.entity';
 import { FavouriteMovieService } from './favourite-movie.service';
 
 export interface MovieApiResponse {
@@ -32,17 +32,17 @@ export class MovieService {
     return movieList;
   }
 
-  async findByName(title: string) {
-    const url = `${process.env.OMDB_SEARCH_BY_TITLE!}${title}&${process.env.APIKEY!}`;
+  async findById(id: string): Promise<Movie> {
+    const url = `${process.env.OMDB_SEARCH_BY_ID!}${id}&${process.env.APIKEY!}`;
     const response = await this.httpService.requestUrl<MovieApi>(url);
     return this.mapperService.mapperToMovie(response);
   }
 
-  async create(movie: MovieFav, userId: string): Promise<MovieFav | undefined> {
-    const checkMovie = await this.movieRepository.findById(movie, userId);
-    console.log('Existe', checkMovie);
+  async create(id: string, userId: string): Promise<Movie | undefined> {
+    const checkMovie = await this.movieRepository.findById(id, userId);
     if (!checkMovie) {
-      const newMovie = await this.movieRepository.create(movie, userId);
+      const findMovie = await this.findById(id);
+      const newMovie = await this.movieRepository.create(findMovie, userId);
       return newMovie;
     } else {
       throw new HttpException(
@@ -57,8 +57,7 @@ export class MovieService {
     return allFavMovies;
   }
 
-  async FindAndDelete(userId: string, movieId: string): Promise<MovieFav> {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  async FindAndDelete(userId: string, movieId: string): Promise<Movie> {
     const deleteMovie = await this.movieRepository.delete(userId, movieId);
     return deleteMovie;
   }
