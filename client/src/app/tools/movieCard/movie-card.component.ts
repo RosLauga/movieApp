@@ -14,6 +14,7 @@ import { FavButtonComponent } from "./fav-button-component/fav-button.component"
   selector: 'app-movie-card',
   imports: [MatCardModule, MatButtonModule, MatIconModule, FavButtonComponent],
   templateUrl: './movie-card.component.html',
+  styleUrl: './movie-card.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MovieCardComponent {

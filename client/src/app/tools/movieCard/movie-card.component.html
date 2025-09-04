@@ -1,10 +1,10 @@
 @if(movie) {
-<mat-card appearance="outlined" class="!bg-black overflow-hidden max-w-80 m-auto h-full flex flex-col">
-  <div class="grid grid-cols-[2fr_1fr] gap-4 p-4">
-      <span class="text-lg text-white truncate w-full overflow-hidden">{{ movie.title }}</span>  
+<mat-card appearance="outlined" class="card overflow-hidden max-w-80 m-auto h-full flex flex-col duration-0.5">
+  <div class="cardHeader grid grid-cols-[2fr_1fr] gap-4 p-4">
+      <span class="text-lg truncate w-full overflow-hidden">{{ movie.title.toUpperCase() }}</span>  
       <app-fav-button [favState]="movie" class="justify-self-end"></app-fav-button>    
   </div>
-  <div class="flex justify-center max-h-80">
+  <div class="cardImageContainer flex overflow-hidden justify-center max-h-80 duration-0.5">
     <img mat-card-image [src]="movie.poster" [alt]="movie.title" class="max-h-full max-w-full object-contain"  />
   </div>  
   <mat-card-content>    
