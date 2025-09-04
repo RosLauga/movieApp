@@ -1,4 +1,4 @@
-<nav class="flex justify-center">
+<nav class="flex justify-center mb-2">
   <div class="mt-2 relative flex items-center max-w-[26rem] w-full">
      @if(isLoading$ | async){
          <div class="absolute w-5 h-5 top-4 left-2.5 text-slate-600" >
@@ -29,9 +29,7 @@
   </div>
 </nav>
 <section class="grid grid-rows-[16rem,1fr] min-h-screen gap-10">
-    <div class="justify-center flex w-full">
-      </div>
-      <div class="grid items-stretch md:grid-cols-3 sm:grid-cols-2 lg:grid-cols-4 gap-y-2 grid-rows-[minmax(12rem,1fr)]">
+      <div class="grid items-stretch md:grid-cols-3 sm:grid-cols-2 lg:grid-cols-4 gap-y-2 grid-rows-3">
        @if (movieList$ | async | json){
          @for (movie of movieList$ | async; track movie.id) {
              <app-movie-card [movie]="movie"></app-movie-card>

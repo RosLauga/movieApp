@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { getMovieList, loadedMovies, setMovieFav } from './movie.actions';
+import { getMovieList, loadedMovies, setMovieFav, unsetMovieFav, unsetMovieFavSuccess } from './movie.actions';
 import { MovieStates } from './movie.states';
 
 export const initialState: MovieStates = { movies: [], isLoading: false };
@@ -31,5 +31,17 @@ export const listMovieReducer = createReducer(
         }
       })
     }
-  })
+  }),
+  on(unsetMovieFav, (state, payload) => {
+    return {
+      ...state,
+      movies: state.movies.map((m) => {
+        if(m.id === payload.id) {
+          return {...m, fav: false}
+        } else {
+          return m
+        }
+      })
+    }
+  }),
 );

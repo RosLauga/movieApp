@@ -1,13 +1,15 @@
 @if(movie) {
-<mat-card appearance="outlined" class="card overflow-hidden max-w-80 m-auto h-full flex flex-col duration-0.5">
-  <div class="cardHeader grid grid-cols-[2fr_1fr] gap-4 p-4">
+  <mat-card appearance="outlined" class="card overflow-hidden max-w-80 m-auto max-h-100 flex flex-col ">
+    <div [class]="(movie.fav ? 'cardHeader': '') + ' grid grid-cols-[4fr_1fr] gap-4 p-4'">
       <span class="text-lg truncate w-full overflow-hidden">{{ movie.title.toUpperCase() }}</span>  
       <app-fav-button [favState]="movie" class="justify-self-end"></app-fav-button>    
-  </div>
-  <div class="cardImageContainer flex overflow-hidden justify-center max-h-80 duration-0.5">
-    <img mat-card-image [src]="movie.poster" [alt]="movie.title" class="max-h-full max-w-full object-contain"  />
-  </div>  
-  <mat-card-content>    
-  </mat-card-content>
-</mat-card>
+    </div>
+    <a [routerLink]="['/dashboard/movie', movie.title]">
+    <div class="cardImageContainer flex overflow-hidden justify-center duration-0.5">
+      <img mat-card-image [src]="movie.poster" [alt]="movie.title" class="transition all duration-300 max-w-full object-contain"  />
+    </div>  
+    </a>
+    <mat-card-content>    
+    </mat-card-content>
+  </mat-card>
 }

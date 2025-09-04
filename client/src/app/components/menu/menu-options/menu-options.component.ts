@@ -17,8 +17,8 @@ interface menuOptions {
 export class MenuOptionsComponent {
   public items: menuOptions[] = [
     {
-      title: "trendings",
-      path: "/dashboard/trendings",
+      title: "favorites",
+      path: "/dashboard/favorites",
       icon: "book",
       customStyle: "w-xs h-18",
     },

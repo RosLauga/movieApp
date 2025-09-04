@@ -7,19 +7,19 @@ export class MapperApiToMovie {
   mapperToMovie = (movie: MovieApi): Movie => {
     const mapMovie: Movie = {
       id: movie.imdbID,
-      actors: movie.Actors,
-      boxOffice: movie.BoxOffice,
+      actors: movie.Actors ?? '',
+      boxOffice: movie.BoxOffice ?? '',
       country: movie.Country,
       director: movie.Director,
       genre: movie.Genre,
       language: movie.Language,
       plot: movie.Plot,
-      poster: movie.Poster,
+      poster: movie.Poster ?? '',
       rated: movie.Rated,
       ratings: JSON.stringify(movie.Ratings),
-      released: movie.Released,
-      runtime: movie.Runtime,
-      title: movie.Title,
+      released: movie.Released ?? '',
+      runtime: movie.Runtime ?? '',
+      title: movie.Title ?? '',
       year: movie.Year,
     };
     return mapMovie;

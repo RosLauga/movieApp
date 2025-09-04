@@ -1,7 +1,8 @@
 import { Routes } from "@angular/router";
-import { TrendingsComponent } from "./pages/trendings/trendings.component";
+import { FavoritesComponent } from "./pages/favorites/favorites.component";
 import { SearchComponent } from "./pages/search/search.component";
 import { DashboardComponent } from "./pages/dashboard/dashboard.component";
+import { MovieComponent } from "./components/movies/movie.component";
 
 export const routes: Routes = [
   {
@@ -9,12 +10,16 @@ export const routes: Routes = [
     component: DashboardComponent,
     children: [
       {
-        path: "trendings",
-        component: TrendingsComponent,
+        path: "favorites",
+        component: FavoritesComponent,
       },
       {
         path: "search",
         component: SearchComponent,
+      },
+      {
+        path: "movie/:movie",
+        component: MovieComponent,
       },
     ],
   },

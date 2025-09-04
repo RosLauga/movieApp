@@ -3,11 +3,18 @@
     transition:all 0.5s ease
 }
 
-.card:hover .cardHeader {
+.cardHeader {
     background-color: black;
     color: white;
     transition:all 0.5s ease
 }
+
+.card:hover div {
+    background-color: black;
+    color: white;
+    transition:all 0.5s ease
+}
+
 
 .card:hover > .cardImageContainer img {
     transform: scale(1.5,1.5);
