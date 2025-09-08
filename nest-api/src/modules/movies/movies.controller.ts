@@ -10,6 +10,11 @@ export class MoviesController {
     return this.moviesService.findAll(query.title, query.userId);
   }
 
+  @Get('/by-id')
+  findById(@Query() query: { movieId: string }) {
+    return this.moviesService.findById(query.movieId);
+  }
+
   @Get('/favoritas')
   findAllFav(@Query() query: { user: string }) {
     return this.moviesService.findAllFav(query.user);

@@ -3,7 +3,7 @@ import { Injectable, inject } from "@angular/core";
 import { firstValueFrom, map, Observable, of } from "rxjs";
 
 export interface ApiResponse {
-  data: any[];
+  data: any[] | any;
   statusCode: string;
   message: string;
 }

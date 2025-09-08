@@ -1,8 +1,10 @@
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import {
   errorMessage,
+  getMovie,
   getMovieList,
   loadedMovies,
+  loadedMovieSuccess,
   setMovieFav,
   setMovieFavSuccess,
   unsetMovieFav,
@@ -56,11 +58,28 @@ export class MovieEffects {
     return this.actions$.pipe(
       ofType(unsetMovieFav),
       exhaustMap(({ id }) =>
-        this.httpService.delete<ApiResponse>(
-          `${environment.apiUrl}/movies/favoritas?movieId=${id}&userId=62805d41-fb42-4330-8a5c-d07a6e2fabae`,
-        ).pipe(
+        this.httpService
+          .delete<ApiResponse>(
+            `${environment.apiUrl}/movies/favoritas?movieId=${id}&userId=62805d41-fb42-4330-8a5c-d07a6e2fabae`,
+          )
+          .pipe(
             map((res) => unsetMovieFavSuccess()),
-            catchError(async () => errorMessage())),
+            catchError(async () => errorMessage()),
+          ),
+      ),
+    );
+  });
+
+  loadMovie$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(getMovie),
+      exhaustMap(({ id }) =>
+        this.httpService.requestUrl<ApiResponse>(
+          `${environment.apiUrl}/movies/by-id?movieId=${id}`,
+        ).pipe(
+          map((res) => loadedMovieSuccess({movie: res.data})),
+          catchError(async() => errorMessage())
+        ),
       ),
     );
   });

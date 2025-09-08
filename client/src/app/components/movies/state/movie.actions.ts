@@ -8,6 +8,18 @@ export const getMovieList = createAction(
 );
 
 // Load movies to the list
+export const getMovie = createAction(
+  "[Movie List] Movie loaded",
+  props<{ id: string }>(),
+);
+
+// Load movies to the list
+export const loadedMovieSuccess = createAction(
+  "[Movie List] Movie loaded Success",
+  props<{ movie: Movie }>(),
+);
+
+// Load movies to the list
 export const loadedMovies = createAction(
   "[Movie List] Movies loaded",
   props<{ movies: Movie[] }>(),

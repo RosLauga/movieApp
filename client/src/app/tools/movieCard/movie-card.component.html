@@ -4,7 +4,7 @@
       <span class="text-lg truncate w-full overflow-hidden">{{ movie.title.toUpperCase() }}</span>  
       <app-fav-button [favState]="movie" class="justify-self-end"></app-fav-button>    
     </div>
-    <a [routerLink]="['/dashboard/movie', movie.title]">
+    <a [routerLink]="['/dashboard/movie', movie.title, movie.id]">
     <div class="cardImageContainer flex overflow-hidden justify-center duration-0.5">
       <img mat-card-image [src]="movie.poster" [alt]="movie.title" class="transition all duration-300 max-w-full object-contain"  />
     </div>  
