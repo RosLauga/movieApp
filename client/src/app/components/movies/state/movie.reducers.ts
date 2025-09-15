@@ -1,12 +1,13 @@
-import { createReducer, on } from "@ngrx/store";
+import { createReducer, on } from '@ngrx/store';
 import {
+  getMovie,
   getMovieList,
   loadedMovies,
   loadedMovieSuccess,
   setMovieFav,
   unsetMovieFav,
-} from "./movie.actions";
-import { MovieStates } from "./movie.states";
+} from './movie.actions';
+import { MovieStates } from './movie.states';
 
 export const initialState: MovieStates = {
   movies: [],
@@ -53,10 +54,17 @@ export const listMovieReducer = createReducer(
       }),
     };
   }),
+  on(getMovie, (state, payload) => {
+    return {
+      ...state,
+      isLoading: true,
+    };
+  }),
   on(loadedMovieSuccess, (state, payload) => {
     return {
       ...state,
-      movie: {...payload.movie,fav: true},
+      isLoading: false,
+      movie: { ...payload.movie, fav: true },
     };
   }),
 );

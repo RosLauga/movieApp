@@ -1,4 +1,4 @@
-import { Actions, createEffect, ofType } from "@ngrx/effects";
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   errorMessage,
   getMovie,
@@ -7,14 +7,16 @@ import {
   loadedMovieSuccess,
   setMovieFav,
   setMovieFavSuccess,
+  snackBarMessage,
   unsetMovieFav,
   unsetMovieFavSuccess,
-} from "./movie.actions";
-import { inject, Injectable } from "@angular/core";
-import { catchError, exhaustMap, map, of } from "rxjs";
-import { ApiResponse, HttpAxiosServices } from "@tools/services/http.services";
-import { environment } from "src/environment";
-import { Movie } from "src/app/pages/search/domain/movie.entity";
+} from './movie.actions';
+import { inject, Injectable } from '@angular/core';
+import { catchError, exhaustMap, map, of } from 'rxjs';
+import { ApiResponse, HttpAxiosServices } from '@tools/services/http.services';
+import { environment } from 'src/environment';
+import { Movie } from 'src/app/pages/search/domain/movie.entity';
+import { snackBarService } from '@tools/snackbarMessage/snackbarMessage.component';
 
 @Injectable()
 export class MovieEffects {
@@ -48,7 +50,7 @@ export class MovieEffects {
           )
           .pipe(
             map((res) => setMovieFavSuccess()),
-            catchError(async () => errorMessage()),
+            catchError(async (err) => errorMessage(err)),
           ),
       ),
     );
@@ -64,7 +66,7 @@ export class MovieEffects {
           )
           .pipe(
             map((res) => unsetMovieFavSuccess()),
-            catchError(async () => errorMessage()),
+            catchError(async (err) => errorMessage(err)),
           ),
       ),
     );
@@ -74,13 +76,26 @@ export class MovieEffects {
     return this.actions$.pipe(
       ofType(getMovie),
       exhaustMap(({ id }) =>
-        this.httpService.requestUrl<ApiResponse>(
-          `${environment.apiUrl}/movies/by-id?movieId=${id}`,
-        ).pipe(
-          map((res) => loadedMovieSuccess({movie: res.data})),
-          catchError(async() => errorMessage())
-        ),
+        this.httpService
+          .requestUrl<ApiResponse>(
+            `${environment.apiUrl}/movies/by-id?movieId=${id}`,
+          )
+          .pipe(
+            map((res) => loadedMovieSuccess({ movie: res.data })),
+            catchError(async (err) => errorMessage(err)),
+          ),
       ),
+    );
+  });
+
+  errorMessage$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(errorMessage),
+      map(({ err }) => {
+        const service = inject(snackBarService);
+        service.openSnackBar(err);
+        return snackBarMessage();
+      }),
     );
   });
 }
