@@ -16,12 +16,13 @@ import { catchError, exhaustMap, map, of } from 'rxjs';
 import { ApiResponse, HttpAxiosServices } from '@tools/services/http.services';
 import { environment } from 'src/environment';
 import { Movie } from 'src/app/pages/search/domain/movie.entity';
-import { snackBarService } from '@tools/snackbarMessage/snackbarMessage.component';
+import { SnackBarService } from '@tools/services/snackBar.service';
 
 @Injectable()
 export class MovieEffects {
   private actions$ = inject(Actions);
   private httpService = inject(HttpAxiosServices);
+  private service = inject(SnackBarService);
 
   loadMoviesEffect$ = createEffect(() => {
     return this.actions$.pipe(
@@ -35,6 +36,7 @@ export class MovieEffects {
             map((res) => {
               return loadedMovies({ movies: res.data });
             }),
+            catchError(async (err) => errorMessage(err)),
           ),
       ),
     );
@@ -92,8 +94,7 @@ export class MovieEffects {
     return this.actions$.pipe(
       ofType(errorMessage),
       map(({ err }) => {
-        const service = inject(snackBarService);
-        service.openSnackBar(err);
+        this.service.openSnackBar(err);
         return snackBarMessage();
       }),
     );

@@ -7,6 +7,7 @@ import { getMovieSelector, movieLoading } from './state/movie.selectors';
 import { MatCardModule } from '@angular/material/card';
 import { FavButtonComponent } from '@tools/movieCard/fav-button-component/fav-button.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { SnackBarService } from '@tools/services/snackBar.service';
 
 @Component({
   selector: 'app-movie-component',
